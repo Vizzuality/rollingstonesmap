@@ -1,0 +1,192 @@
+body{
+	background-color: #111;
+}
+
+#map{
+	width: 100%;
+	height: 100%;
+	background-color: #111;
+}
+
+#overImg{
+	background: url(../img/overImg.png) no-repeat center center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/myBackground.jpg', sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/myBackground.jpg', sizingMethod='scale')";
+	pointer-events:none;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+div#header{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 60px;
+	padding: 24px 0 0 0;
+}
+
+div#header a{
+	font-family: 'hero_lightlight';
+	font-size: 23px;
+	color: #FFF;
+	text-decoration: none;
+	margin: 0 0 0 104px;
+}
+
+.reveal h1{text-shadow:none; text-transform: none;}
+.reveal h2{text-shadow:none; text-transform: none;}
+
+section.landing div.introText{
+	position: absolute;
+	top: 50%;
+	height: 540px;
+	margin-top: -270px;
+	left: 100px;
+}
+
+section.landing h1{
+	font-family: 'hero_lightlight';
+	font-size: 76px;
+	color: #FFF;
+	text-align: left;
+	width: 500px;
+	letter-spacing: -2px;
+}
+
+section.landing h1 strong{
+	font-family: 'heroregular';
+	color: #FF0000;	
+	font-weight: normal;
+}
+
+section.landing h1.hugeNumber{
+	font-size: 197px;
+	margin: 0 0 -10px -5px;
+}
+
+section.landing h2{
+	font-family: 'hero_lightlight';
+	font-size: 31px;
+	text-align: left;
+	color: #FFF;
+	margin: 22px 0 0 0;
+	width: 370px;
+	line-height: 35px;
+}
+
+section.tour div.content{
+	opacity: 0;
+	position: absolute;
+	left: 100px;
+	top: 220px;
+}
+
+section.tour h2{
+	font-family: 'hero_lightlight';
+	text-align: left;
+	color: #FFF;
+}
+
+section.tour h2.year{
+	font-size: 117px;
+	margin: 0;
+}
+
+section.tour h2.title{
+	font-family: 'heroregular';
+	font-size: 76px;
+	color: #ff0000;
+	margin: 11px 0 20px 2px;
+	width: 470px;
+}
+
+section.tour h2.description{
+	font-size: 21px;
+	width: 420px;
+	line-height: 25px;
+	margin: 0 0 0 7px;
+}
+
+section.tour p.km{
+	font-size: 21px;
+	font-family: 'heroregular';
+	color: #FFF;
+	margin: 10px 0 0 0;
+	padding: 0 0 0 28px;
+	text-align: left;
+	background: url(../img/planeIcon.png) 7px 5px no-repeat;
+}
+
+div.nextButton{
+	position: absolute;
+	top: 50%;
+	margin: -103px 0 0 0;
+	right: 100px;
+}
+
+section.tour div.nextButton{
+	position: absolute;
+	opacity: 0;
+	top: 50%;
+	margin: -103px 0 0 0;
+	right: 100px;
+	pointer-events: all;
+}
+
+div.nextButton a{
+	display: block;
+	width: 207px;
+	height: 206px;
+	background: url(../img/nextButton.png) 0 0 no-repeat;
+	pointer-events: all
+}
+
+div.nextButton a:hover{
+	background: url(../img/nextButton.png) 0 -206px no-repeat;
+}
+
+
+/*SECTIONS*/
+
+section.landing{
+	background: url(../img/landingBkg.jpg) no-repeat center center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/myBackground.jpg', sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/myBackground.jpg', sizingMethod='scale')";
+	pointer-events:all;
+}
+
+
+/*OVERWRITING REVEAL.JS STYLES*/
+
+div.leaflet-layer img{
+	margin: 0;
+	background: none;
+	border: none;
+	box-shadow:none;
+	max-height: none;
+}
+
+.reveal .slides{
+	max-width: none; 
+	width: 100%;
+	height: 100%;
+	pointer-events:none;
+	margin-top: -50%;
+	padding: 0;
+}
+
+.reveal .progress span {
+	background-color:#ff0000;
+}
