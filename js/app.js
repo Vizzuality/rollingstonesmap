@@ -13,6 +13,7 @@ Reveal.addEventListener('slidechanged', function(event) {
 	animateContent(event);
 	if(event.indexh>0){
 		updateMap();
+		checktimeline();
 	}
 });
 
@@ -39,7 +40,7 @@ $.ajax({
 				'<div class="nextButton"><a href="#" actual-slide="'+nextSlide+'"> </a></div>'+
 			'</section>'
 		);
-	}  
+	}
 });
 
 // Binds event to the next buttons on each slide
@@ -49,6 +50,32 @@ $('.nextButton a').live('click', function(e){
 	e.preventDefault();
 	return false;
 });
+
+
+//Creates the timeline
+
+$.ajax({
+  url: "http://staging20.cartodb.com/api/v2/sql?q=SELECT%20MIN(cartodb_id)%20as%20tour_id,year%20FROM%20rolling_stones_tour_list%20GROUP%20BY%20year%20ORDER%20BY%20year%20ASC",
+})
+.done(function (data){
+	// TODO: REVIEW THIS QQUERY
+	for(var i in data.rows){
+		$('#timeline ul').append('<li>'+
+				'<a href="#" year-data="'+parseInt(data.rows[i].year)+'" go-to-data="'+parseInt(data.rows[i].tour_id,10)+'"> </a>'+
+			'</li>'
+		);
+	};
+});
+
+$('#timeline ul li a').live('click', function(e){
+	var goto = parseInt($(e.target).attr('go-to-data'));
+	$('#timeline ul li a').removeClass('selected');
+	Reveal.slide(goto,0)
+	$(e.target).addClass('selected');
+	e.preventDefault();
+	return false;
+});
+
 
 // Creates cartodb needed layers
 function createCartodbLayers(){
@@ -159,4 +186,13 @@ function updateMap(){
 	.error(function(errors) {
 		console.log("error:" + err);
 	})
+}
+
+function checktimeline(){
+	var _year = $("section.present > .content > .year").text();
+	if(window.selectedYear != _year || !window.selectedYear){
+		$('#timeline ul li a').removeClass('selected');
+		$('#timeline ul li a[year-data="'+_year+'"]').addClass('selected');	
+		window.selectedYear = _year
+	}
 }
