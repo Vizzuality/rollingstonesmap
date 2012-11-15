@@ -17,7 +17,9 @@ Reveal.addEventListener('slidechanged', function(event) {
 	if(event.indexh>0){
 		updateMap();
 	}
-} );
+});
+
+$('#pointTT').hide();
 
 // Initializes the bkg map
 var map = L.map('map', {zoomControl:false}).setView([51.998410382390325, -1.38427734375], 6);
@@ -36,13 +38,19 @@ cartodb.createLayer(map, 'http://staging20.cartodb.com/api/v1/viz/480/viz.json')
 	var m;
 
 	layer.on('featureOver', function(e, latlng, pos, data) {
-		var pos = JSON.parse(data.geom);
-		var ll = new L.LatLng(pos.coordinates[1], pos.coordinates[0]);
+		var p = JSON.parse(data.geom);
+		var ll = new L.LatLng(p.coordinates[1], p.coordinates[0]);
 		if(!m){
-			m = new L.CircleMarker(ll, {radius: 6, color: '#fff', fillOpacity: 1, stroke: false}).addTo(map);	
+			m = new L.CircleMarker(ll, {radius: 6, color: '#fff', fillOpacity: 1, stroke: false}).addTo(map);
 		}else{
 			m.setLatLng(ll);
 		}
+		$('#pointTT > p').text(data.city);
+		$('#pointTT').show();
+		$('#pointTT').css({
+			'left':(pos.x-$('#pointTT').width()/2)+'px',
+			'top':(pos.y-40)+'px'
+		});
 		olde = e;
 	});
 
@@ -51,6 +59,7 @@ cartodb.createLayer(map, 'http://staging20.cartodb.com/api/v1/viz/480/viz.json')
 			map.removeLayer(m);
 			m = null;
 		}
+		$('#pointTT').hide();
 	});
 
 	layer.on('error', function(err) {
@@ -129,10 +138,8 @@ function updateMap(){
 	var sql = new cartodb.SQL({ user: 'staging20' });
 	sql.getBounds('SELECT * FROM rolling_stones_tour_list WHERE cartodb_id={{id}}', { id: tour_id })
   		.done(function(data) {
-			console.log(data)
 			var p0 = new L.LatLng(data[0][0],data[0][1]);
 			var p1 = new L.LatLng(data[1][0],data[1][1]);
-			console.log(p0);
   			var bb = new L.LatLngBounds(p0,p1);
    			map.fitBounds(bb);
  	 	})

@@ -153,6 +153,19 @@ div.nextButton a:hover{
 	background: url(../img/nextButton.png) 0 -206px no-repeat;
 }
 
+div#pointTT{
+	font-size: 15px;
+	font-family: 'heroregular';
+	color: #FFF;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	display:block;
+	z-index: 1000;
+	pointer-events: none;
+	text-shadow: 0px 0px 6px #000;
+}
+
 
 /*SECTIONS*/
 
