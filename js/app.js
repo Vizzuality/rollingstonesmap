@@ -15,6 +15,8 @@ Reveal.addEventListener('slidechanged', function(event) {
 	if(event.indexh>0){
 		updateMap();
 		checktimeline();
+	}else{
+		$('#timeline ul li a').removeClass('selected');
 	}
 });
 
