@@ -30,6 +30,9 @@ $.ajax({
   url: "http://staging20.cartodb.com/api/v2/sql?q=select%20cartodb_id,%20tour_length,%20shortname,%20year,%20description%20from%20rolling_stones_tour_list%20order%20by%20first_concert_date%20asc",
 })
 .done(function (data) {
+	try{
+	   data = JSON.parse(data);
+	}catch(err){}
 	for(var i in data.rows){
 		var nextSlide = parseInt(i)+1;
 		var tourL = parseInt(data.rows[i].tour_length).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -57,12 +60,13 @@ $('.nextButton a').live('click', function(e){
 
 
 //Creates the timeline
-
 $.ajax({
   url: "http://staging20.cartodb.com/api/v2/sql?q=SELECT%20MIN(cartodb_id)%20as%20tour_id,year%20FROM%20rolling_stones_tour_list%20GROUP%20BY%20year%20ORDER%20BY%20year%20ASC",
 })
 .done(function (data){
-	// TODO: REVIEW THIS QQUERY
+	try{
+	   data = JSON.parse(data);
+	}catch(err){}
 	for(var i in data.rows){
 		$('#timeline ul').append('<li>'+
 				'<a href="#" year-data="'+parseInt(data.rows[i].year)+'" go-to-data="'+parseInt(data.rows[i].tour_id,10)+'"> </a>'+
