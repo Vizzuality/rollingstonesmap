@@ -1,4 +1,5 @@
 var ANIMATE_DELAY = 400;
+var tour_indexes = []
 
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -40,6 +41,7 @@ $.ajax({
 				'<div class="nextButton"><a href="#" actual-slide="'+nextSlide+'"> </a></div>'+
 			'</section>'
 		);
+	tour_indexes.push(parseInt(data.rows[i].cartodb_id,10));
 	}
 });
 
@@ -70,7 +72,7 @@ $.ajax({
 $('#timeline ul li a').live('click', function(e){
 	var goto = parseInt($(e.target).attr('go-to-data'));
 	$('#timeline ul li a').removeClass('selected');
-	Reveal.slide(goto,0)
+	Reveal.slide(searchTour(goto),0)
 	$(e.target).addClass('selected');
 	e.preventDefault();
 	return false;
@@ -180,7 +182,9 @@ function updateMap(){
 		var bb = new L.LatLngBounds(p0,p1);
 		map.fitBounds(bb);
 		setTimeout(function(){
-			map.zoomOut();
+			if(map.getZoom() > 2){
+				map.zoomOut();
+			}
 		},250)
  	})
 	.error(function(errors) {
@@ -188,6 +192,15 @@ function updateMap(){
 	})
 }
 
+function searchTour(id){
+	for(i in tour_indexes){
+		if(tour_indexes[i] == id){
+			return (parseInt(i)+1);
+		}
+	}
+}
+
+ // TODO: CHECK THIS WELL
 function checktimeline(){
 	var _year = $("section.present > .content > .year").text();
 	if(window.selectedYear != _year || !window.selectedYear){
