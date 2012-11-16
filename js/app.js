@@ -71,9 +71,25 @@ $.ajax({
 
 $('#timeline ul li a').live('click', function(e){
 	var goto = parseInt($(e.target).attr('go-to-data'));
-	$('#timeline ul li a').removeClass('selected');
 	Reveal.slide(searchTour(goto),0)
-	$(e.target).addClass('selected');
+	e.preventDefault();
+	return false;
+});
+
+$('#timeline ul li a').live('mouseover', function(e){
+	var _year = $(e.target).attr('year-data');
+	$('#pointTT > p').text(_year);
+	$('#pointTT').show();
+	$('#pointTT').css({
+		'left':($(e.target).offset().left + 5 - $('#pointTT').width()/2)+'px',
+		'top':($(e.target).offset().top - 40) + 'px'
+	});
+	e.preventDefault();
+	return false;
+});
+
+$('#timeline ul li a').live('mouseout', function(e){
+	$('#pointTT').hide();
 	e.preventDefault();
 	return false;
 });
