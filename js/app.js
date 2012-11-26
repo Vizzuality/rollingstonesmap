@@ -30,7 +30,7 @@ createCartodbLayers();
 
 // Add needed slides with their contents
 $.ajax({
-  url: "http://staging20.cartodb.com/api/v2/sql?q=select%20cartodb_id,%20tour_length,%20shortname,%20year,%20description%20from%20rolling_stones_tour_list%20order%20by%20first_concert_date%20asc",
+  url: "http://saleiva-beta.cartodb.com/api/v2/sql?q=select%20cartodb_id,%20tour_length,%20shortname,%20year,%20description%20from%20rolling_stones_tour_list%20order%20by%20first_concert_date%20asc",
 })
 .done(function (data) {
 	try{
@@ -64,7 +64,7 @@ $('.nextButton a').live('click', function(e){
 
 //Creates the timeline
 $.ajax({
-  url: "http://staging20.cartodb.com/api/v2/sql?q=SELECT%20MIN(cartodb_id)%20as%20tour_id,year%20FROM%20rolling_stones_tour_list%20GROUP%20BY%20year%20ORDER%20BY%20year%20ASC",
+  url: "http://saleiva-beta.cartodb.com/api/v2/sql?q=SELECT%20MIN(cartodb_id)%20as%20tour_id,year%20FROM%20rolling_stones_tour_list%20GROUP%20BY%20year%20ORDER%20BY%20year%20ASC",
 })
 .done(function (data){
 	try{
@@ -109,7 +109,7 @@ $('#timeline ul li a').live('mouseout', function(e){
 function createCartodbLayers(){
 	
 	// Create points layer
-	cartodb.createLayer(map, 'http://staging20.cartodb.com/api/v1/viz/657/viz.json', {
+	cartodb.createLayer(map, 'http://saleiva-beta.cartodb.com/api/v1/viz/787/viz.json', {
 		infowindow:false,
 	})
 	.on('done', function(layer) {
@@ -122,7 +122,7 @@ function createCartodbLayers(){
 
 
 	// Create points layer
-	cartodb.createLayer(map, 'http://staging20.cartodb.com/api/v1/viz/480/viz.json', {
+	cartodb.createLayer(map, 'http://saleiva-beta.cartodb.com/api/v1/viz/789/viz.json', {
 		query: "SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}}",
 		infowindow:false,
 		interactivity: 'geom, city, cartodb_id, date_proc'
@@ -184,7 +184,7 @@ function createCartodbLayers(){
 	});
 
 	//Create lines layer
-	cartodb.createLayer(map, 'http://staging20.cartodb.com/api/v1/viz/484/viz.json', {
+	cartodb.createLayer(map, 'http://saleiva-beta.cartodb.com/api/v1/viz/788/viz.json', {
 		infowindow: false
 	})
 	.on('done', function(layer) {
@@ -213,7 +213,7 @@ function updateMap(){
 	var tour_id = $('section.present > .content > .title').attr('tour-id');
 	window.pointsLayer.setQuery("SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}} WHERE tour_id="+tour_id);
 	window.linesLayer.setQuery('SELECT * FROM {{table_name}} WHERE cartodb_id='+tour_id);
-	var sql = new cartodb.SQL({user: 'staging20'});
+	var sql = new cartodb.SQL({user: 'saleiva-beta'});
 	sql.getBounds('SELECT * FROM rolling_stones_tour_list WHERE cartodb_id={{id}}', { 
 		id: tour_id 
 	})
