@@ -22,7 +22,6 @@ Reveal.addEventListener('slidechanged', function(event) {
 
 // Initialize background map and create cartodb layers
 var map = L.map('map', {zoomControl:false}).setView([51.998410382390325, -1.38427734375], 6);
-L.tileLayer('http://a.tiles.mapbox.com/v3/saleiva.map-73mv164v/{z}/{x}/{y}.png64').addTo(map);
 createCartodbLayers();
 
 // Add needed slides with their contents
@@ -103,11 +102,25 @@ $('#timeline ul li a').live('mouseout', function(e){
 
 // Creates cartodb needed layers
 function createCartodbLayers(){
+	
+	// Create points layer
+	cartodb.createLayer(map, 'http://staging20.cartodb.com/api/v1/viz/657/viz.json', {
+		infowindow:false,
+	})
+	.on('done', function(layer) {
+		window.pointsLayer = layer;
+		map.addLayer(layer);
+	})
+	.on('error', function() {
+		console.log("some error occurred");
+	});
+
+
 	// Create points layer
 	cartodb.createLayer(map, 'http://staging20.cartodb.com/api/v1/viz/480/viz.json', {
 		query: 'SELECT *, ST_asGeoJson(the_geom) as geom FROM {{table_name}}',
 		infowindow:false,
-		interactivity: 'geom,city'
+		interactivity: 'geom,city,cartodb_id'
 	})
 	.on('done', function(layer) {
 		window.pointsLayer = layer;
@@ -133,6 +146,7 @@ function createCartodbLayers(){
 				'left':(pos.x-$('#pointTT').width()/2)+'px',
 				'top':(pos.y-40)+'px'
 			});
+			console.log(data.cartodb_id);
 		});
 
 		// Handles feature out
