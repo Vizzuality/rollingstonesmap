@@ -248,14 +248,6 @@ function changeAnimation(data) {
 function updateMap(){
     var tour_id = $('section.present > .content > .title').attr('tour-id');
     var sql = new cartodb.SQL({user: 'saleiva-beta'});
-    window.pointsLayer.setOpacity(0);
-    window.linesLayer.setOpacity(0);
-
-    sql.execute('SELECT the_geom FROM rolling_stones_tour_list WHERE cartodb_id = {{tour_id}}', {
-      tour_id: tour_id
-    }, {
-      format: 'geojson' 
-    }).done(changeAnimation);
 
     sql.getBounds('SELECT * FROM rolling_stones_tour_list WHERE cartodb_id={{id}}', { 
         id: tour_id 
@@ -268,8 +260,6 @@ function updateMap(){
         setTimeout(function(){
           window.pointsLayer.setQuery("SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}} WHERE tour_id="+tour_id);
           window.linesLayer.setQuery('SELECT * FROM {{table_name}} WHERE cartodb_id='+tour_id);
-          window.pointsLayer.setOpacity(1);
-          window.linesLayer.setOpacity(1);
         },250)
     })
     .error(function(errors) {
