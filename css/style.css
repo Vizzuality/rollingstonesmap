@@ -216,6 +216,10 @@ div#timeline ul li span{
 	height: auto;
 }
 
+div#timeline ul li span.selected{
+	color: #FFF;
+}
+
 a#wikipedia_logo{
 	background: url(../img/wikipedia_logo.png) 0 0 no-repeat;
 	position: absolute;

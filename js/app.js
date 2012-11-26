@@ -13,7 +13,7 @@ Reveal.initialize({
 Reveal.addEventListener('slidechanged', function(event) {
     animateContent(event);
     if(event.indexh>0){
-      console.log("CHANGED");
+      	console.log("CHANGED");
         updateMap();
         checktimeline();
     }else{
@@ -88,7 +88,13 @@ $('#timeline ul li a').live('click', function(e){
 });
 
 $('#timeline ul li a').live('mouseover', function(e){
-    if($(e.target).attr('go-to-data') > 1 && $(e.currentTarget).attr('go-to-data') < 36){
+    
+	//TODO: REMOVE HARDCODED NUMBERS 
+    if($(e.target).is($('#timeline ul li:nth-child(2) a'))){
+    	$('#timeline ul li span#firstYear').addClass('selected');
+    }else if($(e.target).is($('#timeline ul li:nth-child(22) a'))){
+		$('#timeline ul li span#lastYear').addClass('selected');
+    }else{
 	    var _year = $(e.target).attr('year-data');
 	    $('#pointTT > p.name').text(_year);
 	    $('#pointTT > p.date').text('');
@@ -98,19 +104,19 @@ $('#timeline ul li a').live('mouseover', function(e){
 	        'top':($(e.target).offset().top - 34) + 'px'
 	    });
 	}
-	//TODO: REMOVE HARDCODED NUMBERS 
-    else if($(e.target) == $('#timeline ul li:nth-child(2) a')){
-    	$('#timeline ul li span#firstYear').css("color","#FFF");
-    }else if($(e.target) == $('#timeline ul li:nth-child(22) a')){
-		$('#timeline ul li span#lastYear').css("color","#FFF");
-    }
     e.preventDefault();
     return false;
 });
 
+//TODO: REMOVE HARDCODED DATES
 $('#timeline ul li a').live('mouseout', function(e){
     $('#pointTT').hide();
-    $('#timeline ul li span').css("color","#666");
+    if(window.selectedYear != '1963'){
+    	$('#timeline ul li span:contains(1963)').removeClass('selected');
+    }
+    if(window.selectedYear != '2005'){
+    	$('#timeline ul li span:contains(2005)').removeClass('selected');
+    }
     e.preventDefault();
     return false;
 
@@ -255,12 +261,13 @@ function searchTour(id){
     }
 }
 
- // TODO: CHECK THIS WELL
 function checktimeline(){
     var _year = $("section.present > .content > .year").text();
     if(window.selectedYear != _year || !window.selectedYear){
+    	window.selectedYear = _year;
         $('#timeline ul li a').removeClass('selected');
+        $('#timeline ul li span').removeClass('selected');
         $('#timeline ul li a[year-data="'+_year+'"]').addClass('selected'); 
-        window.selectedYear = _year
+        $('#timeline ul li span:contains("'+window.selectedYear+'")').addClass('selected');
     }
 }
