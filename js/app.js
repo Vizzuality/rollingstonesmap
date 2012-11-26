@@ -61,7 +61,6 @@ $('.nextButton a').live('click', function(e){
 	return false;
 });
 
-
 //Creates the timeline
 $.ajax({
   url: "http://saleiva-beta.cartodb.com/api/v2/sql?q=SELECT%20MIN(cartodb_id)%20as%20tour_id,year%20FROM%20rolling_stones_tour_list%20GROUP%20BY%20year%20ORDER%20BY%20year%20ASC",
@@ -70,12 +69,14 @@ $.ajax({
 	try{
 	   data = JSON.parse(data);
 	}catch(err){}
+	$('#timeline ul').append('<li><span id="firstYear">'+data.rows[0].year+'</span></li>');
 	for(var i in data.rows){
 		$('#timeline ul').append('<li>'+
 				'<a href="#" year-data="'+parseInt(data.rows[i].year)+'" go-to-data="'+parseInt(data.rows[i].tour_id,10)+'"> </a>'+
 			'</li>'
 		);
 	};
+	$('#timeline ul').append('<li><span id="lastYear">'+data.rows[data.rows.length-1].year+'</span></li>');
 });
 
 $('#timeline ul li a').live('click', function(e){

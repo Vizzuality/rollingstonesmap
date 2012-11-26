@@ -193,20 +193,27 @@ div#timeline{
 
 div#timeline ul li{
 	display: inline-block;
-	width: 9px;
-	height: 9px;
 	margin: 0 7px 0 0;
 }
 
 div#timeline ul li a{
 	display: block;
-	width: 100%;
-	height: 100%;
+	width: 9px;
+	height: 9px;
 	background: url(../img/timeBullet.png) 0 0 no-repeat;
 }
 
 div#timeline ul li a.selected, div#timeline ul li a:hover{
 	background: url(../img/timeBullet.png) 0 -9px no-repeat;
+}
+
+div#timeline ul li span{
+	font-size: 15px;
+	font-family: 'heroregular';
+	color: #666;
+	margin-top: 0;
+	width: auto;
+	height: auto;
 }
 
 a#wikipedia_logo{
