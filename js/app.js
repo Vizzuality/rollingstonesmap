@@ -20,6 +20,10 @@ Reveal.addEventListener('slidechanged', function(event) {
 	}
 });
 
+$(window).resize(function() {
+  $(Reveal.getCurrentSlide()).find('.content').css('top',document.body.clientHeight / 2 - ($(Reveal.getCurrentSlide()).find('.content').height() / 2));
+});
+
 // Initialize background map and create cartodb layers
 var map = L.map('map', {zoomControl:false}).setView([51.998410382390325, -1.38427734375], 6);
 createCartodbLayers();
@@ -148,7 +152,6 @@ function createCartodbLayers(){
 				'left':(pos.x-$('#pointTT').width()/2)+'px',
 				'top':(pos.y-55)+'px'
 			});
-			console.log(data.date_proc);
 		});
 
 		// Handles feature out
