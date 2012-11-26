@@ -113,7 +113,6 @@ function createCartodbLayers(){
 		infowindow:false,
 	})
 	.on('done', function(layer) {
-		window.pointsLayer = layer;
 		map.addLayer(layer);
 	})
 	.on('error', function() {
