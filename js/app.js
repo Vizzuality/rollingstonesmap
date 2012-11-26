@@ -88,22 +88,32 @@ $('#timeline ul li a').live('click', function(e){
 });
 
 $('#timeline ul li a').live('mouseover', function(e){
-    var _year = $(e.target).attr('year-data');
-    $('#pointTT > p.name').text(_year);
-    $('#pointTT > p.date').text('');
-    $('#pointTT').show();
-    $('#pointTT').css({
-        'left':($(e.target).offset().left + 5 - $('#pointTT').width()/2)+'px',
-        'top':($(e.target).offset().top - 34) + 'px'
-    });
+    if($(e.target).attr('go-to-data') > 1 && $(e.currentTarget).attr('go-to-data') < 36){
+	    var _year = $(e.target).attr('year-data');
+	    $('#pointTT > p.name').text(_year);
+	    $('#pointTT > p.date').text('');
+	    $('#pointTT').show();
+	    $('#pointTT').css({
+	        'left':($(e.target).offset().left + 5 - $('#pointTT').width()/2)+'px',
+	        'top':($(e.target).offset().top - 34) + 'px'
+	    });
+	}
+	//TODO: REMOVE HARDCODED NUMBERS 
+    else if($(e.target) == $('#timeline ul li:nth-child(2) a')){
+    	$('#timeline ul li span#firstYear').css("color","#FFF");
+    }else if($(e.target) == $('#timeline ul li:nth-child(22) a')){
+		$('#timeline ul li span#lastYear').css("color","#FFF");
+    }
     e.preventDefault();
     return false;
 });
 
 $('#timeline ul li a').live('mouseout', function(e){
     $('#pointTT').hide();
+    $('#timeline ul li span').css("color","#666");
     e.preventDefault();
     return false;
+
 });
 
 
@@ -117,6 +127,7 @@ function createCartodbLayers(){
     })
     .on('done', function(layer) {
         map.addLayer(layer);
+        console.log("layer1");
     })
     .on('error', function() {
         console.log("some error occurred");
@@ -132,6 +143,7 @@ function createCartodbLayers(){
     .on('done', function(layer) {
         window.pointsLayer = layer;
         map.addLayer(layer);
+        console.log("layer2");
         
         // Handles feature over
         layer.on('featureOver', function(e, latlng, pos, data) {
@@ -193,6 +205,7 @@ function createCartodbLayers(){
     .on('done', function(layer) {
         window.linesLayer = layer;
         map.addLayer(layer);
+        console.log("layer3");
     })
     .on('error', function() {
         console.log("some error occurred");
@@ -210,39 +223,6 @@ function animateContent(event){
     }
     $(event.previousSlide).find('.content').delay(ANIMATE_DELAY*2).animate({opacity: 0}, 100);
     $(event.previousSlide).find('.nextButton').delay(ANIMATE_DELAY*2).animate({opacity: 0}, 100);
-}
-
-// animation
-var animMarker = null;
-var animPoints = null;
-var animPos = 0;
-var animT = 0;
-function changeAnimation(data) {
-  animPoints = data.features[0].geometry.coordinates[0];
-  animPos = 0;
-  animT = 0;
-  if(!animMarker) {
-    animMarker = new L.CircleMarker(new L.LatLng(0, 0), {
-        radius: 6,
-        color: '#fff',
-        fillOpacity: 1,
-        stroke: false
-    }).addTo(map);
-    setInterval(function() {
-      animT += 0.01;
-      if(animT > 1.0) {
-        animPos = (animPos + 1) % (animPoints.length - 1);
-        animT = 0;
-      }
-      var p0 = animPoints[animPos];
-      var p1 = animPoints[animPos + 1];
-      var lon = p0[0] + animT * (p1[0] - p0[0]);
-      var lat = p0[1] + animT * (p1[1] - p0[1]);
-      animMarker.setLatLng(new L.LatLng(lat, lon));
-      animMarker.setStyle({fillOpacity:0.7 + 0.5*Math.cos(3*animT*Math.PI), color: '#F00'});
-      //animMarker.setRadius(10
-    }, 30)
-  }
 }
 
 function updateMap(){
