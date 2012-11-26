@@ -244,6 +244,7 @@ function changeAnimation(data) {
     }, 30)
   }
 }
+
 function updateMap(){
     var tour_id = $('section.present > .content > .title').attr('tour-id');
     var sql = new cartodb.SQL({user: 'saleiva-beta'});
