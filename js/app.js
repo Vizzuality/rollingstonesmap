@@ -212,39 +212,6 @@ function animateContent(event){
     $(event.previousSlide).find('.nextButton').delay(ANIMATE_DELAY*2).animate({opacity: 0}, 100);
 }
 
-// animation
-var animMarker = null;
-var animPoints = null;
-var animPos = 0;
-var animT = 0;
-function changeAnimation(data) {
-  animPoints = data.features[0].geometry.coordinates[0];
-  animPos = 0;
-  animT = 0;
-  if(!animMarker) {
-    animMarker = new L.CircleMarker(new L.LatLng(0, 0), {
-        radius: 6,
-        color: '#fff',
-        fillOpacity: 1,
-        stroke: false
-    }).addTo(map);
-    setInterval(function() {
-      animT += 0.01;
-      if(animT > 1.0) {
-        animPos = (animPos + 1) % (animPoints.length - 1);
-        animT = 0;
-      }
-      var p0 = animPoints[animPos];
-      var p1 = animPoints[animPos + 1];
-      var lon = p0[0] + animT * (p1[0] - p0[0]);
-      var lat = p0[1] + animT * (p1[1] - p0[1]);
-      animMarker.setLatLng(new L.LatLng(lat, lon));
-      animMarker.setStyle({fillOpacity:0.7 + 0.5*Math.cos(3*animT*Math.PI), color: '#F00'});
-      //animMarker.setRadius(10
-    }, 30)
-  }
-}
-
 function updateMap(){
     var tour_id = $('section.present > .content > .title').attr('tour-id');
     var sql = new cartodb.SQL({user: 'saleiva-beta'});
