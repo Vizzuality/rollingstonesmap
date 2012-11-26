@@ -156,9 +156,6 @@ div.nextButton a:hover{
 }
 
 div#pointTT{
-	font-size: 15px;
-	font-family: 'heroregular';
-	color: #FFF;
 	position: absolute;
 	top: 10px;
 	left: 10px;
@@ -166,6 +163,23 @@ div#pointTT{
 	z-index: 1000;
 	pointer-events: none;
 	text-shadow: 0px 0px 6px #000;
+	text-align: center;
+}
+
+div#pointTT p.name{
+	font-size: 15px;
+	font-family: 'heroregular';
+	color: #FFF;
+	width: 100%;
+	margin-top: 0;
+}
+
+div#pointTT p.date{
+	font-size: 13px;
+	font-family: 'heroregular';
+	color: #666;
+	width: 100%;
+	margin-bottom: 0;
 }
 
 div#timeline{
@@ -195,6 +209,15 @@ div#timeline ul li a.selected, div#timeline ul li a:hover{
 	background: url(../img/timeBullet.png) 0 -9px no-repeat;
 }
 
+a#wikipedia_logo{
+	background: url(../img/wikipedia_logo.png) 0 0 no-repeat;
+	position: absolute;
+	display: block;
+	width: 70px;
+	height: 23px;
+	bottom: 23px;
+	left: 185px;
+}
 /*SECTIONS*/
 
 section.landing{

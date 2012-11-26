@@ -83,11 +83,12 @@ $('#timeline ul li a').live('click', function(e){
 
 $('#timeline ul li a').live('mouseover', function(e){
 	var _year = $(e.target).attr('year-data');
-	$('#pointTT > p').text(_year);
+	$('#pointTT > p.name').text(_year);
+	$('#pointTT > p.date').text('');
 	$('#pointTT').show();
 	$('#pointTT').css({
 		'left':($(e.target).offset().left + 5 - $('#pointTT').width()/2)+'px',
-		'top':($(e.target).offset().top - 40) + 'px'
+		'top':($(e.target).offset().top - 34) + 'px'
 	});
 	e.preventDefault();
 	return false;
@@ -118,9 +119,9 @@ function createCartodbLayers(){
 
 	// Create points layer
 	cartodb.createLayer(map, 'http://staging20.cartodb.com/api/v1/viz/480/viz.json', {
-		query: 'SELECT *, ST_asGeoJson(the_geom) as geom FROM {{table_name}}',
+		query: "SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}}",
 		infowindow:false,
-		interactivity: 'geom,city,cartodb_id'
+		interactivity: 'geom, city, cartodb_id, date_proc'
 	})
 	.on('done', function(layer) {
 		window.pointsLayer = layer;
@@ -140,13 +141,14 @@ function createCartodbLayers(){
 			}else{
 				window.m.setLatLng(ll);
 			}
-			$('#pointTT > p').text(data.city);
+			$('#pointTT > p.date').text(data.date_proc);
+			$('#pointTT > p.name').text(data.city);
 			$('#pointTT').show();
 			$('#pointTT').css({
 				'left':(pos.x-$('#pointTT').width()/2)+'px',
-				'top':(pos.y-40)+'px'
+				'top':(pos.y-55)+'px'
 			});
-			console.log(data.cartodb_id);
+			console.log(data.date_proc);
 		});
 
 		// Handles feature out
@@ -206,7 +208,7 @@ function animateContent(event){
 
 function updateMap(){
 	var tour_id = $('section.present > .content > .title').attr('tour-id');
-	window.pointsLayer.setQuery('SELECT *, ST_asGeoJson(the_geom) as geom FROM {{table_name}} WHERE tour_id='+tour_id);
+	window.pointsLayer.setQuery("SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}} WHERE tour_id="+tour_id);
 	window.linesLayer.setQuery('SELECT * FROM {{table_name}} WHERE cartodb_id='+tour_id);
 	var sql = new cartodb.SQL({user: 'staging20'});
 	sql.getBounds('SELECT * FROM rolling_stones_tour_list WHERE cartodb_id={{id}}', { 
