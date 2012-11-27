@@ -127,8 +127,9 @@ $('#timeline ul li a').live('mouseout', function(e){
 // Creates cartodb needed layers
 function createCartodbLayers(){
     
-    // Create points layer
+    // Create base layer
     cartodb.createLayer(map, 'http://saleiva-beta.cartodb.com/api/v1/viz/787/viz.json', {
+        query: "SELECT * FROM {{table_name}}",
         infowindow:false,
         interaction: false
     })
@@ -204,6 +205,7 @@ function createCartodbLayers(){
 
     //Create lines layer
     cartodb.createLayer(map, 'http://saleiva-beta.cartodb.com/api/v1/viz/788/viz.json', {
+        query: "SELECT * FROM {{table_name}}",
         infowindow: false,
         interaction: false
     })
