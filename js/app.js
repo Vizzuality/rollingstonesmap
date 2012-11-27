@@ -32,7 +32,7 @@ createCartodbLayers();
 
 // Add needed slides with their contents
 $.ajax({
-  url: "http://saleiva-beta.cartodb.com/api/v2/sql?q=select%20cartodb_id,%20tour_length,%20shortname,%20year,%20description%20from%20rolling_stones_tour_list%20order%20by%20first_concert_date%20asc",
+  url: "http://saleiva-beta.cartodb.com/api/v2/sql?q=select%20cartodb_id,%20tour_length,%20shortname,%20year,%20description%20from%20rolling_stones_tour_list%20order%20by%20first_concert_date%20asc"
 })
 .done(function (data) {
     try{

@@ -258,9 +258,7 @@ section.landing{
 /*BROWSER NOT SUPPORTED*/
 
 body.badbrowser{
-	background: url(../img/browserNotSupported.jpg) repeat-x top center; 
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/browserNotSupported.jpg', sizingMethod='scale');
-	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/browserNotSupported.jpg', sizingMethod='scale')";
+	background: url(../img/browserNotSupported.jpg) repeat-x top center;
 }
 
 div#mainText{
