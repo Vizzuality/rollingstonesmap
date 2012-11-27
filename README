@@ -1,6 +1,6 @@
-Visualization developed using [reveal.js](http://lab.hakim.se/reveal-js/) and [cartodb.js](http://github.com/CartoDB/cartodb.js/tree/develop).
+Visualization developed using *reveal.js* - http://lab.hakim.se/reveal-js/ and *cartodb.js* - http://github.com/CartoDB/cartodb.js/tree/develop
 
-All the data is hosted on [Cartodb](http://cartodb.com) and comes from [Wikipedia](http://en.wikipedia.org/wiki/Rolling_Stones_concerts).
+All the data is hosted on *Cartodb* - http://cartodb.com and comes from *Wikipedia* - http://en.wikipedia.org/wiki/Rolling_Stones_concerts
 
 All you need to run this locally is to download the zip file and run the app in a local server.
 
