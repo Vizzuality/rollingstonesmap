@@ -40,7 +40,40 @@ div#header a{
 	color: #FFF;
 	text-decoration: none;
 	margin: 0 0 0 104px;
+	letter-spacing: -1px;
+	float:left;
 	pointer-events:all;
+}
+
+div#header div.sharing{
+	float:right;
+	width: 156px;
+	margin-top: -4px;
+	margin-right: 92px;
+}
+
+div#header div.sharing a.fb{
+	background: url(../img/fbBtn.png) 0 0 no-repeat;
+	display: inline-block;
+	height: 28px;
+	width: 78px;
+	margin: 0 7px 0 0;
+}
+
+div#header div.sharing a.fb:hover{
+	background: url(../img/fbBtn.png) 0 -28px no-repeat;
+}
+
+div#header div.sharing a.tw{
+	background: url(../img/twBtn.png) 0 0 no-repeat;
+	display: inline-block;
+	height: 28px;
+	width: 68px;
+	margin: 0;
+}
+
+div#header div.sharing a.tw:hover{
+	background: url(../img/twBtn.png) 0 -28px no-repeat;
 }
 
 .reveal h1{text-shadow:none; text-transform: none;}
