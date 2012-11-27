@@ -249,11 +249,42 @@ section.landing{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/myBackground.jpg', sizingMethod='scale');
-	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/myBackground.jpg', sizingMethod='scale')";
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/landingBkg.jpg', sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/landingBkg.jpg', sizingMethod='scale')";
 	pointer-events:all;
 }
 
+
+/*BROWSER NOT SUPPORTED*/
+
+body.badbrowser{
+	background: url(../img/browserNotSupported.jpg) repeat-x top center; 
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/browserNotSupported.jpg', sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/browserNotSupported.jpg', sizingMethod='scale')";
+}
+
+div#mainText{
+	margin: 200px auto 0 auto;
+	width: 550px;
+	height: 400px;
+	text-align: center;
+}
+
+div#mainText h1{
+	color: #FF0000;
+	font-size: 57px;
+	font-family: 'heroregular';
+	margin: 10px 0 0 0;
+	font-weight: normal;
+	line-height: 60px;
+}
+
+div#mainText h2{
+	color: #FFF;
+	font-size: 19px;
+	font-family: 'heroregular';
+	font-weight: normal;
+}
 
 /*OVERWRITING REVEAL.JS STYLES*/
 
