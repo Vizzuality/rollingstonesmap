@@ -229,6 +229,18 @@ a#wikipedia_logo{
 	bottom: 23px;
 	left: 185px;
 }
+
+div#cursorsThumbnail{
+	display:block;
+	position: absolute;
+	right: 106px;
+	bottom: 50px;
+	width: 56px;
+	height: 37px;
+	background: url(../img/cursorsThumbnail.png) no-repeat center center; 
+	z-index: 200;
+}
+
 /*SECTIONS*/
 
 section.landing{
