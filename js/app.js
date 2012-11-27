@@ -7,13 +7,14 @@ Reveal.initialize({
     controls: false,
     progress: true,
     history: true,
+    overview: false,
+    loop: true,
     transition: 'linear'
 });
 
 Reveal.addEventListener('slidechanged', function(event) {
     animateContent(event);
     if(event.indexh>0){
-      	console.log("CHANGED");
         updateMap();
         checktimeline();
     }else{
@@ -133,7 +134,6 @@ function createCartodbLayers(){
     })
     .on('done', function(layer) {
         map.addLayer(layer);
-        console.log("layer1");
     })
     .on('error', function() {
         console.log("some error occurred");
@@ -149,7 +149,6 @@ function createCartodbLayers(){
     .on('done', function(layer) {
         window.pointsLayer = layer;
         map.addLayer(layer);
-        console.log("layer2");
         
         // Handles feature over
         layer.on('featureOver', function(e, latlng, pos, data) {
@@ -211,7 +210,6 @@ function createCartodbLayers(){
     .on('done', function(layer) {
         window.linesLayer = layer;
         map.addLayer(layer);
-        console.log("layer3");
     })
     .on('error', function() {
         console.log("some error occurred");
@@ -246,7 +244,7 @@ function updateMap(){
         var bb = new L.LatLngBounds(p0,p1);
         map.fitBounds(bb);
         setTimeout(function(){
-        },250)
+        },300)
     })
     .error(function(errors) {
         console.log("error:" + err);
