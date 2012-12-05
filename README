@@ -2,6 +2,15 @@ Visualization developed using *reveal.js* - http://lab.hakim.se/reveal-js/ and *
 
 All the data is hosted on *Cartodb* - http://cartodb.com and comes from *Wikipedia* - http://en.wikipedia.org/wiki/Rolling_Stones_concerts
 
+Here you can download the ones we are using:
+
+So, there are two tables actually. One for the tours
+http://saleiva-beta.cartodb.com/tables/rolling_stones_tour_list/public
+
+And one for the concerts within the tours
+http://saleiva-beta.cartodb.com/tables/rolling_stones/public
+
 All you need to run this locally is to download the zip file and run the app in a local server.
 
 We hope you enjoy it.
+
