@@ -32,7 +32,7 @@ createCartodbLayers();
 
 // Add needed slides with their contents
 $.ajax({
-  url: "http://saleiva-beta.cartodb.com/api/v2/sql?q=select%20cartodb_id,%20tour_length,%20shortname,%20year,%20description%20from%20rolling_stones_tour_list%20order%20by%20first_concert_date%20asc"
+  url: "http://saleiva.cartodb.com/api/v2/sql?q=select%20cartodb_id,%20tour_length,%20shortname,%20year,%20description%20from%20rolling_stones_tour_list%20order%20by%20first_concert_date%20asc"
 })
 .done(function (data) {
     try{
@@ -65,7 +65,7 @@ $('.nextButton a').live('click', function(e){
 
 //Creates the timeline
 $.ajax({
-  url: "http://saleiva-beta.cartodb.com/api/v2/sql?q=SELECT%20MIN(cartodb_id)%20as%20tour_id,year%20FROM%20rolling_stones_tour_list%20GROUP%20BY%20year%20ORDER%20BY%20year%20ASC",
+  url: "http://saleiva.cartodb.com/api/v2/sql?q=SELECT%20MIN(cartodb_id)%20as%20tour_id,year%20FROM%20rolling_stones_tour_list%20GROUP%20BY%20year%20ORDER%20BY%20year%20ASC",
 })
 .done(function (data){
 	try{
@@ -128,7 +128,7 @@ $('#timeline ul li a').live('mouseout', function(e){
 function createCartodbLayers(){
     
     // Create base layer
-    cartodb.createLayer(map, 'http://saleiva-beta.cartodb.com/api/v1/viz/787/viz.json', {
+    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/787/viz.json', {
         query: "SELECT * FROM {{table_name}}",
         infowindow:false,
         interaction: false
@@ -142,7 +142,7 @@ function createCartodbLayers(){
 
 
     // Create points layer
-    cartodb.createLayer(map, 'http://saleiva-beta.cartodb.com/api/v1/viz/789/viz.json', {
+    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/789/viz.json', {
         query: "SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}}",
         infowindow:false,
         interactivity: 'geom, city, cartodb_id, date_proc'
@@ -204,7 +204,7 @@ function createCartodbLayers(){
     });
 
     //Create lines layer
-    cartodb.createLayer(map, 'http://saleiva-beta.cartodb.com/api/v1/viz/788/viz.json', {
+    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/788/viz.json', {
         query: "SELECT * FROM {{table_name}}",
         infowindow: false,
         interaction: false
@@ -233,7 +233,7 @@ function animateContent(event){
 
 function updateMap(){
     var tour_id = $('section.present > .content > .title').attr('tour-id');
-    var sql = new cartodb.SQL({user: 'saleiva-beta'});
+    var sql = new cartodb.SQL({user: 'saleiva'});
     window.pointsLayer.setQuery("SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}} WHERE tour_id="+tour_id);
     window.linesLayer.setQuery('SELECT * FROM {{table_name}} WHERE cartodb_id='+tour_id);
 
