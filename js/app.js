@@ -128,7 +128,7 @@ $('#timeline ul li a').live('mouseout', function(e){
 function createCartodbLayers(){
     
     // Create base layer
-    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/787/viz.json', {
+    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/16437/viz.json', {
         query: "SELECT * FROM {{table_name}}",
         infowindow:false,
         interaction: false
@@ -142,7 +142,7 @@ function createCartodbLayers(){
 
 
     // Create points layer
-    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/789/viz.json', {
+    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/16433/viz.json', {
         query: "SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}}",
         infowindow:false,
         interactivity: 'geom, city, cartodb_id, date_proc'
@@ -204,7 +204,7 @@ function createCartodbLayers(){
     });
 
     //Create lines layer
-    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/788/viz.json', {
+    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/16436/viz.json', {
         query: "SELECT * FROM {{table_name}}",
         infowindow: false,
         interaction: false
