@@ -143,9 +143,9 @@ function createCartodbLayers(){
 
     // Create points layer
     cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/16433/viz.json', {
-        query: "SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}}",
+        query: "SELECT *, date, ST_asGeoJson(the_geom) as geom FROM {{table_name}}",
         infowindow:false,
-        interactivity: 'geom, city, cartodb_id, date_proc'
+        interactivity: 'geom, city, cartodb_id, date'
     })
     .on('done', function(layer) {
         window.pointsLayer = layer;
@@ -165,7 +165,7 @@ function createCartodbLayers(){
             }else{
                 window.m.setLatLng(ll);
             }
-            $('#pointTT > p.date').text(data.date_proc);
+            $('#pointTT > p.date').text(data.date);
             $('#pointTT > p.name').text(data.city);
             $('#pointTT').show();
             $('#pointTT').css({
@@ -234,7 +234,7 @@ function animateContent(event){
 function updateMap(){
     var tour_id = $('section.present > .content > .title').attr('tour-id');
     var sql = new cartodb.SQL({user: 'saleiva'});
-    window.pointsLayer.setQuery("SELECT *, to_char(date, 'MM-DD-YYYY') as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}} WHERE tour_id="+tour_id);
+    window.pointsLayer.setQuery("SELECT *, date, ST_asGeoJson(the_geom) as geom FROM {{table_name}} WHERE tour_id="+tour_id);
     window.linesLayer.setQuery('SELECT * FROM {{table_name}} WHERE cartodb_id='+tour_id);
 
     sql.getBounds('SELECT * FROM rolling_stones_tour_list WHERE cartodb_id={{id}}', { 
