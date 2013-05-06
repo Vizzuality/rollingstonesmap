@@ -51,7 +51,7 @@ $.ajax({
                 '<div class="nextButton"><a href="#" actual-slide="'+nextSlide+'"> </a></div>'+
             '</section>'
         );
-    tour_indexes.push(parseInt(data.rows[i].cartodb_id,10));
+        tour_indexes.push(parseInt(data.rows[i].cdb_id,10));
     }
 });
 
