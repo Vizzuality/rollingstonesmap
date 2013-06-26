@@ -124,98 +124,93 @@ $('#timeline ul li a').live('mouseout', function(e){
 });
 
 
-// Creates cartodb needed layers
-function createCartodbLayers(){
-    
-    // Create base layer
-    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/16437/viz.json', {
-        query: "SELECT * FROM {{table_name}}",
-        infowindow:false,
-        interaction: false
-    })
-    .on('done', function(layer) {
-        map.addLayer(layer);
-    })
-    .on('error', function() {
-        console.log("some error occurred");
-    });
+function createCartodbLayers() {
+
+    var baseLayerDef = {
+      sql: "SELECT * FROM rolling_basemap",
+      cartocss: "#rolling_basemap { polygon-fill:#333333; polygon-opacity: 0.7; line-opacity:1; line-color: #000; line-width: .3; [feature='Urban Area']{ polygon-fill:#000; polygon-opacity:0; line-width: 0; } }"
+      //cartocss: "#rolling_basemap { polygon-fill:#333333; polygon-opacity: 0.7; line-opacity:1; line-color: #000; line-width: .3; [feature='Urban Area']{ polygon-fill:#000; polygon-opacity:0; polygon-pattern-file: url(https://dl.dropbox.com/u/538411/rollingBgk0.png); line-width: 0; polygon-pattern-opacity: .25; } }"
+    };
+
+    var pointsLayerDef = {
+      sql: "SELECT *, date as date_proc, ST_asGeoJson(the_geom) as geom FROM rolling_stones",
+      cartocss: "#rolling_stones::oth { marker-fill: #000; marker-opacity: .3; marker-width: 17; marker-allow-overlap: true; } #rolling_stones { marker-fill: #FFF; marker-opacity: 1; marker-width: 5; marker-line-width: 0; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; }",
+      interactivity: 'geom,city,cartodb_id,date_proc'
+    };
+
+    var linesLayerDef = {
+      sql: "select * from rolling_stones_tours",
+      cartocss: "#rolling_stones_tours{ line-width: 1; line-color: #FFF; line-opacity: 0.8; }",
+    };
+
+    cartodb.createLayer(map, {
+      user_name: 'saleiva',
+      type: 'cartodb',
+      sublayers: [
+        baseLayerDef,
+        pointsLayerDef,
+        linesLayerDef
+      ]
+    }).on('done', function(layer) {
+      // layer created, add it to the map
+      map.addLayer(layer);
+
+      var pointsLayer = window.pointsLayer = layer.getSubLayer(1); //second one, 0 based index
+      pointsLayer.setInteraction(true);
+      window.linesLayer = layer.getSubLayer(2);
+
+      // Handles feature over
+      pointsLayer.on('featureOver', function(e, latlng, pos, data) {
+          var pointLatLng = JSON.parse(data.geom);
+          var ll = new L.LatLng(pointLatLng.coordinates[1], pointLatLng.coordinates[0]);
+          if(!window.m){
+              window.m = new L.CircleMarker(ll, {
+                  radius: 6,
+                  color: '#fff',
+                  fillOpacity: 1,
+                  stroke: false
+              }).addTo(map);
+          }else{
+              window.m.setLatLng(ll);
+          }
+          $('#pointTT > p.date').text(data.date_proc);
+          $('#pointTT > p.name').text(data.city);
+          $('#pointTT').show();
+          $('#pointTT').css({
+              'left':(pos.x-$('#pointTT').width()/2)+'px',
+              'top':(pos.y-55)+'px'
+          });
+      });
+
+      // Handles feature out
+      pointsLayer.on('featureOut', function(e, latlng, pos, data) {
+          if(window.m){
+              map.removeLayer(window.m);
+              window.m = null;
+          }
+          $('#pointTT').hide();
+      });
+
+      layer.on('error', function(err) {
+        console.log('error: ' + err);
+      });
 
 
-    // Create points layer
-    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/16440/viz.json', {
-        query: "SELECT *, date as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}}",
-        infowindow:false,
-        interactivity: 'geom, city, cartodb_id, date_proc'
-    })
-    .on('done', function(layer) {
-        window.pointsLayer = layer;
-        map.addLayer(layer);
-
-        // Handles feature over
-        layer.on('featureOver', function(e, latlng, pos, data) {
-            var pointLatLng = JSON.parse(data.geom);
-            var ll = new L.LatLng(pointLatLng.coordinates[1], pointLatLng.coordinates[0]);
-            if(!window.m){
-                window.m = new L.CircleMarker(ll, {
-                    radius: 6,
-                    color: '#fff',
-                    fillOpacity: 1,
-                    stroke: false
-                }).addTo(map);
-            }else{
-                window.m.setLatLng(ll);
-            }
-            $('#pointTT > p.date').text(data.date_proc);
-            $('#pointTT > p.name').text(data.city);
-            $('#pointTT').show();
-            $('#pointTT').css({
-                'left':(pos.x-$('#pointTT').width()/2)+'px',
-                'top':(pos.y-55)+'px'
-            });
-        });
-
-        // Handles feature out
-        layer.on('featureOut', function(e, latlng, pos, data) {
-            if(window.m){
-                map.removeLayer(window.m);
-                window.m = null;
-            }
-            $('#pointTT').hide();
-        });
-
-        layer.on('error', function(err) {
-            console.log('error: ' + err);
-        });
-
-        // Repositions CartoDB logo and hides attributions
-        setTimeout(function(){
-            $('#cartodb_logo').animate({
-                left: 96,
-                bottom: 14
-            }, 300);
-            $('.leaflet-control-attribution').animate({
-                opacity:0
-            }, 200);
+      // Repositions CartoDB logo and hides attributions
+      setTimeout(function(){
+          $('#cartodb_logo').animate({
+              left: 96,
+              bottom: 14
+          }, 300);
+          $('.leaflet-control-attribution').animate({
+              opacity:0
+          }, 200);
         }, 10);
 
-    })
-    .on('error', function() {
-        console.log("some error occurred");
+    }).on('error', function(err) {
+          console.log('error: ' + err);
     });
-
-    //Create lines layer
-    cartodb.createLayer(map, 'http://saleiva.cartodb.com/api/v1/viz/16444/viz.json', {
-        query: "SELECT * FROM {{table_name}}",
-        infowindow: false,
-        interaction: false
-    })
-    .on('done', function(layer) {
-        window.linesLayer = layer;
-        map.addLayer(layer);
-    })
-    .on('error', function() {
-        console.log("some error occurred");
-    });
+  
 }
 
 // Animate and position the content when loading a new slide
@@ -234,8 +229,8 @@ function animateContent(event){
 function updateMap(){
     var tour_id = $('section.present > .content > .title').attr('tour-id');
     var sql = new cartodb.SQL({user: 'saleiva'});
-    window.pointsLayer.setQuery("SELECT *, date as date_proc, ST_asGeoJson(the_geom) as geom FROM {{table_name}} WHERE tour_id="+tour_id);
-    window.linesLayer.setQuery('SELECT * FROM {{table_name}} WHERE cdb_id='+tour_id);
+    window.pointsLayer.setSQL("SELECT *, date as date_proc, ST_asGeoJson(the_geom) as geom FROM rolling_stones WHERE tour_id="+tour_id);
+    window.linesLayer.setSQL('SELECT * FROM rolling_stones_tours WHERE cdb_id='+tour_id);
 
     sql.getBounds('SELECT * FROM rolling_stones_tours WHERE cdb_id={{id}}', { 
         id: tour_id 
@@ -245,8 +240,6 @@ function updateMap(){
         var p1 = new L.LatLng(data[1][0],data[1][1]);
         var bb = new L.LatLngBounds(p0,p1);
         map.fitBounds(bb);
-        setTimeout(function(){
-        },300)
     })
     .error(function(errors) {
         console.log("error:" + err);
