@@ -129,7 +129,6 @@ function createCartodbLayers() {
     var baseLayerDef = {
       sql: "SELECT * FROM rolling_basemap",
       cartocss: "#rolling_basemap { polygon-fill:#333333; polygon-opacity: 0.7; line-opacity:1; line-color: #000; line-width: .3; [feature='Urban Area']{ polygon-fill:#000; polygon-opacity:0; line-width: 0; } }"
-      //cartocss: "#rolling_basemap { polygon-fill:#333333; polygon-opacity: 0.7; line-opacity:1; line-color: #000; line-width: .3; [feature='Urban Area']{ polygon-fill:#000; polygon-opacity:0; polygon-pattern-file: url(https://dl.dropbox.com/u/538411/rollingBgk0.png); line-width: 0; polygon-pattern-opacity: .25; } }"
     };
 
     var pointsLayerDef = {
